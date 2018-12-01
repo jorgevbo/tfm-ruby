@@ -1,0 +1,2 @@
+class CompetencyFramework < ApplicationRecord
+end
