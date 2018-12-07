@@ -70,3 +70,4 @@ gem 'draper'
 gem 'pundit'
 
 gem 'config'
+gem 'moodle-api'
