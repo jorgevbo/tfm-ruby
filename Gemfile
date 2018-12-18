@@ -71,3 +71,4 @@ gem 'pundit'
 
 gem 'config'
 gem 'moodle-api'
+gem 'awesome_print', require: 'ap'
