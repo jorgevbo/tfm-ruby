@@ -1,5 +1,5 @@
 class CompetencyFramework < ApplicationRecord
-  has_many :competency
+  has_many :competencies
 
   validates :name, presence: true
 
