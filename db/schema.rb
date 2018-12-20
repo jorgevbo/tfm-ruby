@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_19_152720) do
+ActiveRecord::Schema.define(version: 2018_12_20_140041) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -72,6 +72,9 @@ ActiveRecord::Schema.define(version: 2018_12_19_152720) do
     t.datetime "enddate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "moodle_id"
+    t.string "moodle_shortname"
+    t.string "moodle_fullname"
   end
 
 end
