@@ -16,11 +16,16 @@ class Course < ApplicationRecord
 
       c.save
     end
+
+    # Asociar las competencias migradas
+    Course.find_each do |course|
+      course.associate_competencies
+    end
   end
 
   def migrate_assignments
-    assignments = Api::Assignment.by_course(moodle_id)
-    assignments.each do |item|
+    moodle_assignments = Api::Assignment.by_course(moodle_id)
+    moodle_assignments.each do |item|
       a = Assignment.find_or_initialize_by(moodle_id: item['id'].to_s)
       a.moodle_id = item['id'].to_s
       a.name = item['name'].to_s
@@ -28,8 +33,20 @@ class Course < ApplicationRecord
 
       # Agregar las referencias aqui
       a.course = self
+      # @todo: Terminar referencias
 
       ap a
     end
+  end
+
+  def associate_competencies
+    moodle_competencies = Api::Course.competencies(moodle_id)
+    moodle_competencies.each do |item|
+      c = Competency.find_by(moodle_id: item['competency']['id'].to_s)
+      unless c.nil?
+        competencies << c
+      end
+    end
+    self.save
   end
 end

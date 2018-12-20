@@ -61,11 +61,11 @@ ActiveRecord::Schema.define(version: 2018_12_20_152118) do
     t.index ["competency_framework_id"], name: "index_competencies_on_competency_framework_id"
   end
 
-  create_table "competency_courses", force: :cascade do |t|
+  create_table "competencies_courses", force: :cascade do |t|
     t.integer "competency_id"
     t.integer "course_id"
-    t.index ["competency_id"], name: "index_competency_courses_on_competency_id"
-    t.index ["course_id"], name: "index_competency_courses_on_course_id"
+    t.index ["competency_id"], name: "index_competencies_courses_on_competency_id"
+    t.index ["course_id"], name: "index_competencies_courses_on_course_id"
   end
 
   create_table "competency_frameworks", force: :cascade do |t|

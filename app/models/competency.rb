@@ -9,7 +9,7 @@ class Competency < ApplicationRecord
   # 
   # @param competency_framework_id String. ID del Competency Framework de Moodle.
   # Default 'all' para todos los registros.
-  def self.migrate_all
+  def self.migrate
     CompetencyFramework.find_each do |cf|
       migrate_one(cf.moodle_id)
     end

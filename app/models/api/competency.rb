@@ -11,6 +11,7 @@ module Api
     # - :order String (ASC|DESC)
     # - :skip Integer. Salta un numero de registro en la petición
     # - :limit Integer. Cantidad de elementos por petición
+    # @return Array[Object]
     def self.all(params = {})
       Moodle::Api.core_competency_list_competencies(params)
     end
