@@ -199,6 +199,7 @@ GEM
       typhoeus
     msgpack (1.2.4)
     multi_json (1.13.1)
+    mysql2 (0.5.2)
     nio4r (2.3.1)
     nokogiri (1.8.5)
       mini_portile2 (~> 2.3.0)
@@ -321,6 +322,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   moodle-api
+  mysql2
   puma (~> 3.11)
   pundit
   rails (~> 5.2.1, >= 5.2.1.1)
