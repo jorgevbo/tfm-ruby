@@ -73,3 +73,5 @@ gem 'config'
 gem 'moodle-api'
 gem 'awesome_print', require: 'ap'
 gem 'mysql2'
+
+# ejecutar 'sudo su' en el servidor via ssh para poder ejecutar db:seed
