@@ -3,14 +3,14 @@ class MoodleMigrator
     CompetencyFramework.migrate
     Competency.migrate
 
-    Course.migrate
-    
+    Course.migrate    
   end
 
   def self.clean
+    Assignment.destroy_all
+    Course.destroy_all
+    Competency.destroy_all
+    CompetencyFramework.destroy_all
   end
 
-  def self.test(params = {})
-    Moodle::Api.tool_lp_data_for_course_competencies_page(params)
-  end
 end
