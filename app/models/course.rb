@@ -30,11 +30,10 @@ class Course < ApplicationRecord
     moodle_assignments.each do |item|
       a = Assignment.find_or_initialize_by(moodle_id: item['id'].to_s)
       a.moodle_id = item['id'].to_s
+      a.moodle_cmid = item['cmid'].to_s
       a.name = item['name'].to_s
       a.duedate = Time.at(item['duedate'].to_i).to_datetime
-
       a.course = self
-      ap a.save
     end
   end
 
@@ -52,10 +51,31 @@ class Course < ApplicationRecord
 
   def associate_assignment_competencies
     # 1. Obtener datos de la API para relacionar assigments y competencias del curso
+    api_competencies = Api::Course.detailed_competencies(self.moodle_id)
+    return if api_competencies.blank?
 
-    # 2. Asignar los datos encontrados en los assignments guardados
+    # 2. Obtener solo los datos necesarios
+    array_competencies_assignments = api_competencies.map do |item|
+      {
+        competencyid: item['competency']['id'],
+        assignmentscmids: item['coursemodules'].map { |cm| cm['id'] }
+      }
+    end
+
+    # 3. Formatear los datos para facilitar la iteracion en assignments
+    hash_assignment_competencies = {}
+    array_competencies_assignments.each do |k|
+      competencyid = k[:competencyid]
+      k[:assignmentscmids].each do |j|
+        hash_assignment_competencies[j] = [] if hash_assignment_competencies[j].nil?
+        hash_assignment_competencies[j] << competencyid
+      end
+    end
+
+    # 4. Asignar los datos encontrados en los assignments guardados
+    ap hash_assignment_competencies
     self.assignments.each do |assignment|
-
+      ap assignment
     end
   end
 end

@@ -5,6 +5,7 @@ class CreateAssignments < ActiveRecord::Migration[5.2]
       t.references :course, foreign_key: true
 
       t.string :moodle_id
+      t.string :moodle_cmid
       t.datetime :duedate
 
       t.timestamps

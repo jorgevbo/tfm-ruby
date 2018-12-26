@@ -42,6 +42,7 @@ ActiveRecord::Schema.define(version: 2018_12_26_142300) do
     t.string "name"
     t.integer "course_id"
     t.string "moodle_id"
+    t.string "moodle_cmid"
     t.datetime "duedate"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
