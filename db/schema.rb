@@ -49,6 +49,13 @@ ActiveRecord::Schema.define(version: 2018_12_26_142300) do
     t.index ["course_id"], name: "index_assignments_on_course_id"
   end
 
+  create_table "assignments_competencies", force: :cascade do |t|
+    t.integer "assignment_id"
+    t.integer "competency_id"
+    t.index ["assignment_id"], name: "index_assignments_competencies_on_assignment_id"
+    t.index ["competency_id"], name: "index_assignments_competencies_on_competency_id"
+  end
+
   create_table "competencies", force: :cascade do |t|
     t.string "name"
     t.integer "competency_framework_id"
@@ -58,13 +65,6 @@ ActiveRecord::Schema.define(version: 2018_12_26_142300) do
     t.string "moodle_competencyframeworkid"
     t.string "moodle_idnumber"
     t.index ["competency_framework_id"], name: "index_competencies_on_competency_framework_id"
-  end
-
-  create_table "competencies_assignments", force: :cascade do |t|
-    t.integer "competency_id"
-    t.integer "assignment_id"
-    t.index ["assignment_id"], name: "index_competencies_assignments_on_assignment_id"
-    t.index ["competency_id"], name: "index_competencies_assignments_on_competency_id"
   end
 
   create_table "competencies_courses", force: :cascade do |t|

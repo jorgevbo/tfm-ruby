@@ -73,9 +73,16 @@ class Course < ApplicationRecord
     end
 
     # 4. Asignar los datos encontrados en los assignments guardados
-    ap hash_assignment_competencies
     self.assignments.each do |assignment|
-      ap assignment
+      assignment.competencies.clear
+
+      if hash_assignment_competencies.has_key?(assignment.moodle_cmid.to_i)
+        hash_assignment_competencies[assignment.moodle_cmid.to_i].each do |moodle_competency_id|
+          competency = Competency.find_by(moodle_id: moodle_competency_id.to_s)
+          assignment.competencies << competency unless competency.nil?
+        end
+      end
+      assignment.save
     end
   end
 end
