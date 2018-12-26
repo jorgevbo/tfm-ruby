@@ -19,7 +19,9 @@ class Course < ApplicationRecord
 
     # Asociar las competencias migradas
     Course.find_each do |course|
+      course.migrate_assignments
       course.associate_competencies
+      course.associate_assignment_competencies
     end
   end
 
@@ -31,22 +33,29 @@ class Course < ApplicationRecord
       a.name = item['name'].to_s
       a.duedate = Time.at(item['duedate'].to_i).to_datetime
 
-      # Agregar las referencias aqui
       a.course = self
-      # @todo: Terminar referencias
-
-      ap a
+      ap a.save
     end
   end
 
   def associate_competencies
+    self.competencies.clear
     moodle_competencies = Api::Course.competencies(moodle_id)
     moodle_competencies.each do |item|
       c = Competency.find_by(moodle_id: item['competency']['id'].to_s)
       unless c.nil?
-        competencies << c
+        self.competencies << c
       end
     end
     self.save
+  end
+
+  def associate_assignment_competencies
+    # 1. Obtener datos de la API para relacionar assigments y competencias del curso
+
+    # 2. Asignar los datos encontrados en los assignments guardados
+    self.assignments.each do |assignment|
+
+    end
   end
 end

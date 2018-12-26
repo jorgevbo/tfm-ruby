@@ -9,4 +9,8 @@ class MoodleMigrator
 
   def self.clean
   end
+
+  def self.test(params = {})
+    Moodle::Api.tool_lp_data_for_course_competencies_page(params)
+  end
 end

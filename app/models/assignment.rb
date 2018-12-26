@@ -1,5 +1,6 @@
 class Assignment < ApplicationRecord
   belongs_to :course
-  belongs_to :competency
+  has_and_belongs_to_many :competencies
+
 
 end
