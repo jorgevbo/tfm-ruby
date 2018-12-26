@@ -32,5 +32,25 @@ module Api
         []
       end
     end
+
+
+    # Llamada a función API core_enrol_get_enrolled_users
+    # Obtiene los usuarios matriculados en un curso
+    # 
+    # @param moodle_course_id Integer ID del curso de los usuarios
+    # @return Array[Object]
+    def self.enrolled_users(moodle_course_id = 0)
+      begin
+        result = Moodle::Api.core_enrol_get_enrolled_users({
+          courseid: moodle_course_id
+        })
+        result.select do |item|
+          is_student = item['roles'].detect { |role| role['shortname'] == 'student' }
+          !is_student.blank?
+        end
+      rescue
+        []
+      end
+    end
   end
 end

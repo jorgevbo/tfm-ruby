@@ -12,5 +12,4 @@ class MoodleMigrator
     Competency.destroy_all
     CompetencyFramework.destroy_all
   end
-
 end
