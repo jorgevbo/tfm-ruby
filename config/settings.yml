@@ -1,3 +1,5 @@
 moodle:
-  host: 'http://192.168.64.2/moodle'
-  token: bed205b3b3141ce61dbf084b43fac58e
+  host: 'https://tfm-jicr.moodlecloud.com'
+  token: fa468f8cc1f6d28b13c4fa17826945f5
+#  host: 'http://192.168.64.2/moodle'
+#  token: bed205b3b3141ce61dbf084b43fac58e  
