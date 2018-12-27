@@ -1,5 +1,6 @@
 class Course < ApplicationRecord
   has_and_belongs_to_many :competencies
+  has_and_belongs_to_many :students
   has_many :assignments
 
   def self.migrate
@@ -22,6 +23,7 @@ class Course < ApplicationRecord
       course.migrate_assignments
       course.associate_competencies
       course.associate_assignment_competencies
+      course.migrate_students
     end
   end
 
@@ -34,6 +36,8 @@ class Course < ApplicationRecord
       a.name = item['name'].to_s
       a.duedate = Time.at(item['duedate'].to_i).to_datetime
       a.course = self
+
+      a.save
     end
   end
 
@@ -83,6 +87,22 @@ class Course < ApplicationRecord
         end
       end
       assignment.save
+    end
+  end
+
+  def migrate_students
+    self.students.clear
+    moodle_enrollments = Api::Course.enrolled_users(self.moodle_id.to_i)
+
+    return if moodle_enrollments.blank?
+    moodle_enrollments.each do |item|
+      student = Student.find_or_initialize_by(moodle_id: item['id'].to_s)
+      student.firstname = item['firstname'].to_s
+      student.lastname = item['lastname'].to_s
+      student.moodle_id = item['id'].to_s
+      student.save
+
+      self.students << student
     end
   end
 end
