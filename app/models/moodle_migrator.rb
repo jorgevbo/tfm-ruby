@@ -8,11 +8,12 @@ class MoodleMigrator
   def self.migrate
     CompetencyFramework.migrate
     Competency.migrate
-
-    Course.migrate    
+    Course.migrate
+    Assignment.migrate_grades
   end
 
   def self.clean
+    Grade.destroy_all
     Student.destroy_all
     Assignment.destroy_all
     Course.destroy_all

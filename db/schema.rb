@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_27_132905) do
+ActiveRecord::Schema.define(version: 2018_12_27_211950) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -100,6 +100,18 @@ ActiveRecord::Schema.define(version: 2018_12_27_132905) do
     t.integer "student_id"
     t.index ["course_id"], name: "index_courses_students_on_course_id"
     t.index ["student_id"], name: "index_courses_students_on_student_id"
+  end
+
+  create_table "grades", force: :cascade do |t|
+    t.integer "student_id"
+    t.integer "assignment_id"
+    t.string "score"
+    t.string "moodle_userid"
+    t.string "moodle_assignment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_grades_on_assignment_id"
+    t.index ["student_id"], name: "index_grades_on_student_id"
   end
 
   create_table "students", force: :cascade do |t|
