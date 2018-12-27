@@ -25,5 +25,15 @@ module Api
 
       course['assignments']
     end
+
+    def self.grades(moodle_assignment_id = '')
+      return [] if moodle_assignment_id.blank?
+
+      params = { assignmentids: [moodle_assignment_id] }
+      result = Moodle::Api.mod_assign_get_grades(params)
+      assignments = result['assignments']
+      return [] if assignments.blank?
+      assignments[0]['grades']
+    end
   end
 end

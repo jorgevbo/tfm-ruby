@@ -31,3 +31,4 @@ Se necesitan habilitar las siguientes funciones a las lista de acceso de la API:
 * core_competency_list_course_competencies
 * tool_lp_data_for_course_competencies_page
 * core_enrol_get_enrolled_users
+* mod_assign_get_grades
