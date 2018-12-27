@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  student: one
+  assignment: one
+  score: MyString
+  moodle_userid: MyString
+  moodle_assignment_id: MyString
+
+two:
+  student: two
+  assignment: two
+  score: MyString
+  moodle_userid: MyString
+  moodle_assignment_id: MyString
