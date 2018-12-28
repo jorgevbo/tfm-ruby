@@ -1,8 +1,16 @@
 class MoodleMigrator
 
   def self.start
+    init_at = DateTime.now
     self.clean
     self.migrate
+    end_at = DateTime.now
+
+    return {
+      seconds: end_at.to_i - init_at.to_i,
+      ịnit_at: init_at,
+      end_at: end_at,
+    }
   end
 
   def self.migrate

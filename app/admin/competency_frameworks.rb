@@ -1,7 +1,4 @@
 ActiveAdmin.register CompetencyFramework do
-# See permitted parameters documentation:
-# https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
-#
   actions :index, :show
 
   filter :name, label: 'Nombre'
@@ -17,13 +14,4 @@ ActiveAdmin.register CompetencyFramework do
     column 'ID Number Moodle', :moodle_idnumber
     actions
   end
-#
-# or
-#
-# permit_params do
-#   permitted = [:permitted, :attributes]
-#   permitted << :other if params[:action] == 'create' && current_user.admin?
-#   permitted
-# end
-
 end
