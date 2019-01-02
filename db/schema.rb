@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_12_27_211950) do
+ActiveRecord::Schema.define(version: 2019_01_02_151522) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -34,8 +34,10 @@ ActiveRecord::Schema.define(version: 2018_12_27_211950) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "role_id"
     t.index ["email"], name: "index_admin_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_admin_users_on_reset_password_token", unique: true
+    t.index ["role_id"], name: "index_admin_users_on_role_id"
   end
 
   create_table "assignments", force: :cascade do |t|
@@ -112,6 +114,13 @@ ActiveRecord::Schema.define(version: 2018_12_27_211950) do
     t.datetime "updated_at", null: false
     t.index ["assignment_id"], name: "index_grades_on_assignment_id"
     t.index ["student_id"], name: "index_grades_on_student_id"
+  end
+
+  create_table "roles", force: :cascade do |t|
+    t.string "name"
+    t.string "code"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "students", force: :cascade do |t|
