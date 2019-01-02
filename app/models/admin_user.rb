@@ -5,4 +5,16 @@ class AdminUser < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   belongs_to :role
+
+  def admin?
+    return false if role.nil?
+    
+    role.code == Role::ADMIN
+  end
+
+  def guest?
+    return true if role.nil?
+
+    role.code == Role::GUEST
+  end
 end
