@@ -1,8 +1,8 @@
 class CompetencyFramework < ApplicationRecord
   has_many :competencies
+  has_many :assignments, through: :competencies
 
   validates :name, presence: true
-
   def self.migrate
     params = { context: { contextid: 1 } }
     items = Api::CompetencyFramework.all(params)

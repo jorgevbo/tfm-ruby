@@ -11,6 +11,12 @@ ActiveAdmin.register Student do
     column 'Nombres', :firstname
     column 'Apellidos', :lastname
     column 'ID Moodle', :moodle_id
-    actions
+    actions do |item|
+      item 'Reporte', report_admin_student_path(item)
+    end
+  end
+
+  member_action :report, method: :get do
+    @result = Report.qualification_by_student(resource)
   end
 end
