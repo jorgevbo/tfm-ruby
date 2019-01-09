@@ -4,20 +4,52 @@ class Report
     return [] if student.nil?
 
     # Obtener las notas del alunno dado
-    notas = student.grades
+    student_grades = student.grades
 
-    # Obtener todas las tareas asociadas a un framework
-    competency_hash = {}
+    # Proyectar solo el campo score
+    student_assignment_score = {}
+    student_grades.each do |i|
+      student_assignment_score[i.assignment_id] = i.score.to_f
+    end
+
+    # Obtener los IDs de assignments con notas del estudiante
+    student_grades_assignment_ids = student_assignment_score.keys
+
+    # Obtener todas las tareas asociadas a un CompetencyFramework
+    all_competency_frameworks = []
     CompetencyFramework.find_each do |cf|
-      competency_hash[cf.id] = cf.assignments.uniq
+      all_competency_frameworks << {
+        object: cf,
+        assignments: cf.assignments.uniq
+      }
     end
 
-    notas.each do |nota|
+    # Purgar y filtrar usando solo las notas obtenidas por el alumno
+    competency_framework_grades = {}
+    all_competency_frameworks.each do |cf|
 
+      # Objeto auxiliar para contabilizar y agrupar las notas
+      competency_framework_grades[cf[:object].id] = {
+        competency_framework_id: cf[:object].id,
+        competency_framework_name: cf[:object].name,
+        score_sum: 0.0,
+        score_count: 0
+      }
+
+      # Solo calcular CompetencyFrameworks que tengan tareas asociadas
+      if !cf[:assignments].empty?
+        # Obtener solo las tareas del estudiante
+        found_assignments = cf[:assignments].select {|a| student_grades_assignment_ids.include? a.id }
+
+        # Usar las tareas encontradas para realizar calculos
+        found_assignments.each do |found|
+          competency_framework_grades[cf[:object].id][:score_count] += 1
+          competency_framework_grades[cf[:object].id][:score_sum] += student_assignment_score[found.id]
+        end
+      end
     end
 
-
-    [student.grades, hash]
+    competency_framework_grades
   end
 end
 

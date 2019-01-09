@@ -18,5 +18,20 @@ ActiveAdmin.register Student do
 
   member_action :report, method: :get do
     @result = Report.qualification_by_student(resource)
+
+    @chart = LazyHighCharts::HighChart.new('graph') do |f|
+      f.title(text: "Este es el titulo del grafico")
+      f.xAxis(categories: ["A", "B", "C", "D", "E"])
+      f.series(name: "Cantidad de números C", yAxis: 0, data: [100, 200, 50, 150, 75])
+    
+    
+      f.yAxis [
+        {title: {text: "GDP in Billions", margin: 70} },
+        {title: {text: "Population in Millions"}, opposite: true},
+      ]
+    
+      f.legend(align: 'right', verticalAlign: 'top', y: 75, x: -50, layout: 'horizontal')
+      f.chart({defaultSeriesType: "column"})
+    end
   end
 end
