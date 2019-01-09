@@ -7,11 +7,29 @@ class Report
     notas = student.grades
 
     # Obtener todas las tareas asociadas a un framework
-    hash = {}
+    competency_hash = {}
     CompetencyFramework.find_each do |cf|
-      hash[cf.name] = cf.assignments
+      competency_hash[cf.id] = cf.assignments.uniq
     end
 
-    hash
+    notas.each do |nota|
+
+    end
+
+
+    [student.grades, hash]
   end
 end
+
+
+#A = [5, 5, 10, 10] = [3]
+#B = [10, 10, 5, 5] = [1]
+#C = [0, 0, 10, 10] = [3]
+
+
+# F = [1, 0, 2, 0]
+
+
+# 1 = 1
+# 2 = 0
+# 3 = 2

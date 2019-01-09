@@ -1,4 +1,6 @@
 ActiveAdmin.register_page 'Migrate' do
+  menu label: 'Migracion'
+
 
   page_action :execute, method: :post do
     operations = MoodleMigrator.start
@@ -6,7 +8,7 @@ ActiveAdmin.register_page 'Migrate' do
     redirect_to admin_migrate_path
   end
 
-  content do
+  content title: 'Migracion' do
     render partial: 'index'
   end
 
