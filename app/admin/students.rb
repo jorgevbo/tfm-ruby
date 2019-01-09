@@ -17,17 +17,26 @@ ActiveAdmin.register Student do
   end
 
   member_action :report, method: :get do
-    @result = Report.qualification_by_student(resource)
+    report_result = Report.qualification_by_student(resource)
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
       f.title(text: "Este es el titulo del grafico")
-      f.xAxis(categories: ["A", "B", "C", "D", "E"])
-      f.series(name: "Cantidad de números C", yAxis: 0, data: [100, 200, 50, 150, 75])
-    
-    
+      names = []
+      scores = []
+      report_result.each do |key, item|
+        names << item[:competency_framework_name]
+        if item[:score_count] != 0
+          scores << (item[:score_sum] / item[:score_count])
+        else
+          scores << 0
+        end
+      end
+
+      f.xAxis(categories: names)
+      f.series(name: "Promedio de notas", yAxis: 0, data: scores)
+       
       f.yAxis [
-        {title: {text: "GDP in Billions", margin: 70} },
-        {title: {text: "Population in Millions"}, opposite: true},
+        {title: {text: "Promedio de notas", margin: 70} }
       ]
     
       f.legend(align: 'right', verticalAlign: 'top', y: 75, x: -50, layout: 'horizontal')
