@@ -19,14 +19,16 @@ ActiveAdmin.register Student do
   member_action :report, method: :get do
     report_result = Report.qualification_by_student(resource)
 
+    ap report_result
+
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(text: "Este es el titulo del grafico")
+      f.title(text: "Competencias por alumno")
       names = []
       scores = []
       report_result.each do |key, item|
         names << item[:competency_framework_name]
         if item[:score_count] != 0
-          scores << (item[:score_sum] / item[:score_count])
+          scores << (item[:score_sum] / item[:score_count]).round(2)
         else
           scores << 0
         end

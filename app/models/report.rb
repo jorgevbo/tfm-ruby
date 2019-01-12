@@ -1,5 +1,23 @@
 class Report
 
+  # Obtener el reporte de cualificaciones por estudiante
+  # 
+  # Retorna un hash con el formato:
+  #  {
+  #    10 => {
+  #         :competency_framework_id => 10,
+  #       :competency_framework_name => "Operación de redes departamentales",
+  #                       :score_sum => 5.0,
+  #                     :score_count => 1
+  #    },
+  #    11 => {
+  #        :competency_framework_id => 11,
+  #      :competency_framework_name => "Operación de sistemas informáticos",
+  #                      :score_sum => 81.0,
+  #                    :score_count => 12
+  #    }
+  #  }
+
   def self.qualification_by_student(student = nil)
     return [] if student.nil?
 
