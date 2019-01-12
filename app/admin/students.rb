@@ -1,6 +1,9 @@
 ActiveAdmin.register Student do
   actions :index, :show
 
+  scope_to :current_admin_user, association_method: :my_students
+
+
   filter :firstname, label: 'Nombres'
   filter :lastname, label: 'Apellidos'
   filter :moodle_id, label: 'ID Moodle'
@@ -15,13 +18,11 @@ ActiveAdmin.register Student do
       item 'Reporte', report_admin_student_path(item)
     end
   end
-
   member_action :report, method: :get, title: 'Informe de Cualificación Profesional' do
     report_result = Report.qualification_by_student(resource)
 
     max_avg = report_result.max_by {|item| item[:score_avg] }
     @student = resource
-
     @empresas = Empresa.con_disponibilidad(max_avg[:competency_framework_name].strip)
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|

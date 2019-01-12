@@ -1,5 +1,6 @@
 class Empresa < ApplicationRecord
   has_many :fcts
+  has_many :students, through: :fcts
 
   def self.con_disponibilidad(competency_framework_name = '')
     empresas = Empresa.where(actividad: competency_framework_name)

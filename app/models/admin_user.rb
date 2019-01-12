@@ -8,6 +8,35 @@ class AdminUser < ApplicationRecord
 
   def admin?
     return false if role.nil?
+    role.code == Role::ADMIN
+  end
+
+  def guest?
+    return true if role.nil?
+    role.code  == Role::GUEST
+  end
+
+  def empresa?
+    return false if role.nil?
+    role.code  == Role::EMPRESA
+  end
+
+  def my_students
+    case role.code
+    when Role::ADMIN 
+      return Student.all
+    when Role::EMPRESA
+      empresa_id = 1
+      empresa = Empresa.find(empresa_id)
+      return empresa.students
+    else
+      return Student.where(id: 0)
+    end
+  end
+
+=begin
+  def admin?
+    return false if role.nil?
     
     role.code == Role::ADMIN
   end
@@ -17,4 +46,6 @@ class AdminUser < ApplicationRecord
 
     role.code == Role::GUEST
   end
+=end
+
 end
