@@ -16,22 +16,21 @@ ActiveAdmin.register Student do
     end
   end
 
-  member_action :report, method: :get do
+  member_action :report, method: :get, title: 'Informe de Cualificación Profesional' do
     report_result = Report.qualification_by_student(resource)
 
-    ap report_result
+    max_avg = report_result.max_by {|item| item[:score_avg] }
+    @student = resource
+
+    @empresas = Empresa.con_disponibilidad(max_avg[:competency_framework_name].strip)
 
     @chart = LazyHighCharts::HighChart.new('graph') do |f|
-      f.title(text: "Competencias por alumno")
+      f.title(text: "Competencias del Alumno '#{@student.firstname} #{@student.lastname}'")
       names = []
       scores = []
-      report_result.each do |key, item|
+      report_result.each do |item|
         names << item[:competency_framework_name]
-        if item[:score_count] != 0
-          scores << (item[:score_sum] / item[:score_count]).round(2)
-        else
-          scores << 0
-        end
+        scores << item[:score_avg].round(2)
       end
 
       f.xAxis(categories: names)

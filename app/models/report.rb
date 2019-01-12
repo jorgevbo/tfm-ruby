@@ -51,7 +51,8 @@ class Report
         competency_framework_id: cf[:object].id,
         competency_framework_name: cf[:object].name,
         score_sum: 0.0,
-        score_count: 0
+        score_count: 0,
+        score_avg: 0.0
       }
 
       # Solo calcular CompetencyFrameworks que tengan tareas asociadas
@@ -67,7 +68,29 @@ class Report
       end
     end
 
+    competency_framework_grades = competency_framework_grades.map do |key, item|
+      if item[:score_count] > 0
+        item[:score_avg] = item[:score_sum] / item[:score_count]
+      end
+      item
+    end
     competency_framework_grades
+  end
+
+  def self.qualification_by_company
+    result = []
+
+    # @TODO: Provisiona mientras no se tenga un filtro de estudiantes por empresa
+    Student.find_each do |student|
+      student_result = qualification_by_student(student)
+      competency_framework_id, max_score = student_result.max_by do |id, item|
+        item[:score_sum]
+      end
+
+      # Ordenar los resultados en el array de salida
+    end
+
+    result
   end
 end
 
