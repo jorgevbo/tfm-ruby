@@ -77,20 +77,44 @@ class Report
     competency_framework_grades
   end
 
-  def self.qualification_by_company
-    result = []
-
-    # @TODO: Provisiona mientras no se tenga un filtro de estudiantes por empresa
-    Student.find_each do |student|
-      student_result = qualification_by_student(student)
-      competency_framework_id, max_score = student_result.max_by do |id, item|
-        item[:score_sum]
-      end
-
-      # Ordenar los resultados en el array de salida
+  def self.consolidado
+    # Formamos el hash con los datos resultantes
+    result_competencias = {}
+    CompetencyFramework.find_each do |cf|
+      result_competencias[cf.id] = {
+        competency_framework_id: cf.id,
+        competency_framework_name: cf.name,
+        empresas_count: 0,
+        empresas_cupos_disponibles: 0,
+        empresas_cupos_asignados: 0,
+        students_count: 0
+      }
     end
 
-    result
+    # Obtenemos los reportes individuales de cada estudiante
+    Student.find_each do |student|
+      student_result = qualification_by_student(student)
+
+      # Obtenemos la nota más alta del estudiante
+      max_score = student_result.max_by { |item| item[:score_sum] }
+
+      # Si se encuenta una nota, contabilizar el resultado
+      if !max_score.blank?
+        id = max_score[:competency_framework_id]
+        result_competencias[id][:students_count] += 1
+      end
+    end
+
+    result_competencias.each do |k, item|
+      actividad = item[:competency_framework_name].strip
+      Empresa.where(actividad: actividad).find_each do |empresa|
+        item[:empresas_count] += 1
+        item[:empresas_cupos_disponibles] += empresa.cupos_disponibles
+        item[:empresas_cupos_asignados] += empresa.fcts.count
+      end
+    end
+
+    result_competencias
   end
 end
 

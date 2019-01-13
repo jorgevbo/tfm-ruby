@@ -26,7 +26,6 @@ class AdminUser < ApplicationRecord
     when Role::ADMIN 
       return Student.all
     when Role::EMPRESA
-      empresa_id = 1
       empresa = Empresa.find(empresa_id)
       return empresa.students
     else
