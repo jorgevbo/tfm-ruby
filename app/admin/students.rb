@@ -1,4 +1,5 @@
 ActiveAdmin.register Student do
+  menu label: 'Alumnos'
   actions :index, :show
 
   scope_to :current_admin_user, association_method: :my_students
@@ -9,7 +10,7 @@ ActiveAdmin.register Student do
   filter :moodle_id, label: 'ID Moodle'
   filter :courses, label: 'Curso'
 
-  index do
+  index title: 'Alumnos' do
     id_column
     column 'Nombres', :firstname
     column 'Apellidos', :lastname

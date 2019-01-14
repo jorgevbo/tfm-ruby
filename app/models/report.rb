@@ -96,7 +96,7 @@ class Report
       student_result = qualification_by_student(student)
 
       # Obtenemos la nota más alta del estudiante
-      max_score = student_result.max_by { |item| item[:score_sum] }
+      max_score = student_result.max_by { |item| item[:score_avg] }
 
       # Si se encuenta una nota, contabilizar el resultado
       if !max_score.blank?
